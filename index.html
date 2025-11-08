@@ -3039,7 +3039,7 @@
             const lagBtn = document.getElementById('lag-team-btn');
             try {
                 if (!STATUS_ENDPOINT) {
-                    statusEl.textContent = 'Bot API: Set API endpoint';
+                    statusEl.textContent = 'Bot API: http://127.0.0.1:8787';
                     statusEl.style.color = '#a00';
                     if (lagBtn) lagBtn.disabled = true;
                     return;
