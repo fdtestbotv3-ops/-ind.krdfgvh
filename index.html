@@ -1,0 +1,3622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To FD BOSS EMOT BOT</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./static/style.css?v=2">
+    <script>
+      // Fix asset paths when the site is served under a GitHub Pages subpath
+      window.addEventListener('DOMContentLoaded', function () {
+        var imgs = document.querySelectorAll('img');
+        imgs.forEach(function (img) {
+          if (img.src && img.src.includes('/static/')) {
+            img.src = img.src.replace(/^https?:\/\/[^/]+\/(?:[^/]+\/)?/, '');
+            img.src = img.src.replace(/^\//, '');
+          }
+          var ds = img.getAttribute('data-src');
+          if (ds && ds.startsWith('/static/')) {
+            img.setAttribute('data-src', ds.replace(/^\//, ''));
+          }
+        });
+        // Also fix any link or script tags that might use leading /static/
+        var selectors = ['link[href]', 'script[src]'];
+        selectors.forEach(function(sel){
+          document.querySelectorAll(sel).forEach(function(el){
+            var attr = sel.includes('href') ? 'href' : 'src';
+            var val = el.getAttribute(attr);
+            if (val && val.startsWith('/static/')) {
+              el.setAttribute(attr, val.replace(/^\//, ''));
+            }
+          });
+        });
+      });
+    </script>
+</head>
+<body>
+
+    <!-- ===== POPUP MODAL SECTION ===== -->
+    <div id="welcome-modal-overlay">
+        <div id="welcome-modal">
+            <h2>Welcome!</h2>
+            <p>Join our community for updates and more tools.</p>
+            <div class="modal-buttons">
+
+                <a href="https://www.instagram.com/fdbossoffical?igsh=MXRiNXVmOW5xcjJyZA==" target="_blank" class="modal-button telegram">
+                    <i class="fab fa-instagram"></i> Follow Instagram
+                </a>
+                <a href="https://www.youtube.com/@prituislive" target="_blank" class="modal-button youtube">
+                    <i class="fab fa-youtube"></i> Subscribe on YouTube
+                </a>
+            </div>
+            <button id="close-modal-btn">Continue to Site</button>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container">
+        <header>
+            <h1>Welcome To FD BOSS EMOT BOT</h1>
+            <!-- Social Links Section -->
+            <div class="social-links">
+
+                <a href="https://www.instagram.com/fdbossoffical?igsh=MXRiNXVmOW5xcjJyZA==" target="_blank" class="social-button telegram">
+                    <i class="fab fa-instagram"></i> Follow Instagram
+                </a>
+                <a href="https://www.youtube.com/@prituislive" target="_blank" class="social-button youtube">
+                    <i class="fab fa-youtube"></i> Subscribe YouTube
+                </a>
+            </div>
+        </header>
+        
+        <!-- Monitoring Dashboard Section (New Vertical Light Theme) -->
+        <div class="monitoring-dashboard" id="monitoring-dashboard">
+            <div class="dashboard-header-container" id="toggle-dashboard">
+                <h2>User Monitoring <span id="user-count-display"></span></h2>
+                <i class="fas fa-plus toggle-icon" id="toggle-icon"></i> 
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="monitoring-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Requests Per Minute</div>
+                        <div class="metric-value" id="rpm-value">0</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Unique Users Per Minute</div>
+                        <div class="metric-value" id="users-minute-value">0</div>
+                    </div>
+
+                </div>
+                <div class="last-updated" id="last-updated">Loading data...</div>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="server"><i class="fas fa-server"></i> Server:</label>
+                <select id="server" class="server-select">
+                    <option value="india">India Server</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="api-endpoint-input"><i class="fas fa-link"></i> API Endpoint:</label>
+                <input type="text" id="api-endpoint-input" placeholder="https://.../send_emote">
+                <button id="save-api-endpoint" type="button">Save</button>
+                <button id="reset-api-endpoint" type="button">Clear</button>
+            </div>
+            <div class="input-group">
+                <label for="team-code"><i class="fas fa-users"></i> Team Code:</label>
+                <input type="text" id="team-code" placeholder="Enter team code">
+            </div>
+            <div class="uid-grid">
+                <div class="input-group">
+                    <label for="repeat-count"><i class="fas fa-sync-alt"></i> Repeat Count:</label>
+                    <input type="number" id="repeat-count" placeholder="e.g. 10" min="1" value="1">
+                </div>
+                <div class="input-group">
+                    <label for="burst-delay-ms"><i class="fas fa-hourglass-half"></i> Burst Delay (ms):</label>
+                    <input type="number" id="burst-delay-ms" placeholder="e.g. 120" min="0" value="120">
+                </div>
+            </div>
+            <div class="input-group">
+                <button id="lag-team-btn" class="send-button">Lag Team Turbo (25 req/sec × 10s)</button>
+                <button id="join-team-btn" class="send-button">Join Team (once)</button>
+                <button id="stop-lag-team-btn" type="button" style="display:none;margin-left:8px;">Stop Lag</button>
+                <div id="lag-team-status" style="margin-top:6px;font-size:12px;color:#888;">Idle</div>
+                <div id="api-status" style="margin-top:4px;font-size:12px;">Bot API: Unknown</div>
+            </div>
+            <div class="uid-grid">
+                <div class="input-group">
+                    <label for="uid1"><i class="fas fa-user"></i> UID 1:</label>
+                    <input type="text" class="uid-input" id="uid1" placeholder="Required">
+                </div>
+                 <div class="input-group">
+                    <label for="uid2"><i class="fas fa-user"></i> UID 2:</label>
+                    <input type="text" class="uid-input" id="uid2" placeholder="Optional">
+                </div>
+                 <div class="input-group">
+                    <label for="uid3"><i class="fas fa-user"></i> UID 3:</label>
+                    <input type="text" class="uid-input" id="uid3" placeholder="Optional">
+                </div>
+                 <div class="input-group">
+                    <label for="uid4"><i class="fas fa-user"></i> UID 4:</label>
+                    <input type="text" class="uid-input" id="uid4" placeholder="Optional">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-display">
+            <h3>Result:</h3>
+            <pre id="result-box" class="api-url-box">Ready. Choose an emote, set Repeat Count for spam, then Send.</pre>
+            <button id="stop-retry-btn" type="button" style="display:none;margin-top:8px;">Stop Retry</button>
+        </div>
+
+        <!-- Custom Emotes: allow users to add any emote by ID/name -->
+        <section id="custom-emote-section" class="custom-emote-section">
+            <h3>Add Custom Emote</h3>
+            <div class="custom-emote-form">
+                <input id="custom-emote-name" type="text" placeholder="Emote name" aria-label="Emote name" />
+                <input id="custom-emote-id" type="text" placeholder="Emote ID (numbers)" aria-label="Emote ID" />
+                <button id="add-custom-emote" type="button">Add</button>
+                <span id="custom-emote-error" class="form-error" style="display:none;color:#ff4d4f;">Enter a name and numeric ID</span>
+            </div>
+        </section>
+
+        <div class="emote-list">
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000075.png" alt="Cobra Rising" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Cobra Rising</p>
+                    <p class="emote-id">ID: 909000075</p>
+                </div>
+                <button class="send-button" data-emote-id="909000075">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000063.png" alt="Ak Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ak Max</p>
+                    <p class="emote-id">ID: 909000063</p>
+                </div>
+                <button class="send-button" data-emote-id="909000063">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035007.png" alt="Shotgun Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shotgun Max</p>
+                    <p class="emote-id">ID: 909035007</p>
+                </div>
+                <button class="send-button" data-emote-id="909035007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000068.png" alt="Scar Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Scar Max</p>
+                    <p class="emote-id">ID: 909000068</p>
+                </div>
+                <button class="send-button" data-emote-id="909000068">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000085.png" alt="XM8 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">XM8 Max</p>
+                    <p class="emote-id">ID: 909000085</p>
+                </div>
+                <button class="send-button" data-emote-id="909000085">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038012.png" alt="G18 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">G18 Max</p>
+                    <p class="emote-id">ID: 909038012</p>
+                </div>
+                <button class="send-button" data-emote-id="909038012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035012.png" alt="AN94 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">AN94 Max</p>
+                    <p class="emote-id">ID: 909035012</p>
+                </div>
+                <button class="send-button" data-emote-id="909035012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033002.png" alt="MP5 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">MP5 Max</p>
+                    <p class="emote-id">ID: 909033002</p>
+                </div>
+                <button class="send-button" data-emote-id="909033002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051003.png" alt="N60 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">N60 Max</p>
+                    <p class="emote-id">ID: 909051003</p>
+                </div>
+                <button class="send-button" data-emote-id="909051003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037011.png" alt="Fist Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fist Max</p>
+                    <p class="emote-id">ID: 909037011</p>
+                </div>
+                <button class="send-button" data-emote-id="909037011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000081.png" alt="M10 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">M10 Max</p>
+                    <p class="emote-id">ID: 909000081</p>
+                </div>
+                <button class="send-button" data-emote-id="909000081">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000090.png" alt="Famasa Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Famasa Max</p>
+                    <p class="emote-id">ID: 909000090</p>
+                </div>
+                <button class="send-button" data-emote-id="909000090">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049010.png" alt="P90 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">P90 Max</p>
+                    <p class="emote-id">ID: 909049010</p>
+                </div>
+                <button class="send-button" data-emote-id="909049010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038010.png" alt="Thompson Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Thompson Max</p>
+                    <p class="emote-id">ID: 909038010</p>
+                </div>
+                <button class="send-button" data-emote-id="909038010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033001.png" alt="M4A1 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">M4A1 Max</p>
+                    <p class="emote-id">ID: 909033001</p>
+                </div>
+                <button class="send-button" data-emote-id="909033001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000098.png" alt="UMP Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">UMP Max</p>
+                    <p class="emote-id">ID: 909000098</p>
+                </div>
+                <button class="send-button" data-emote-id="909000098">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040010.png" alt="New M40 Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">New M40 Max</p>
+                    <p class="emote-id">ID: 909040010</p>
+                </div>
+                <button class="send-button" data-emote-id="909040010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045001.png" alt="Parafal Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Parafal Max</p>
+                    <p class="emote-id">ID: 909045001</p>
+                </div>
+                <button class="send-button" data-emote-id="909045001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042008.png" alt="WD Picker Max" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">WD Picker Max</p>
+                    <p class="emote-id">ID: 909042008</p>
+                </div>
+                <button class="send-button" data-emote-id="909042008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049012.png" alt="Open Fire" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Open Fire</p>
+                    <p class="emote-id">ID: 909049012</p>
+                </div>
+                <button class="send-button" data-emote-id="909049012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042007.png" alt="&#34;100&#34; Gloo Sculpture" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">&#34;100&#34; Gloo Sculpture</p>
+                    <p class="emote-id">ID: 909042007</p>
+                </div>
+                <button class="send-button" data-emote-id="909042007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000002.png" alt="LOL" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">LOL</p>
+                    <p class="emote-id">ID: 909000002</p>
+                </div>
+                <button class="send-button" data-emote-id="909000002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000003.png" alt="Provoke" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Provoke</p>
+                    <p class="emote-id">ID: 909000003</p>
+                </div>
+                <button class="send-button" data-emote-id="909000003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000010.png" alt="Flowers of Love" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flowers of Love</p>
+                    <p class="emote-id">ID: 909000010</p>
+                </div>
+                <button class="send-button" data-emote-id="909000010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000014.png" alt="FFWC Throne" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">FFWC Throne</p>
+                    <p class="emote-id">ID: 909000014</p>
+                </div>
+                <button class="send-button" data-emote-id="909000014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000032.png" alt="Selfie" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Selfie</p>
+                    <p class="emote-id">ID: 909000032</p>
+                </div>
+                <button class="send-button" data-emote-id="909000032">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000034.png" alt="Pirate&#39;s Flag" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Pirate&#39;s Flag</p>
+                    <p class="emote-id">ID: 909000034</p>
+                </div>
+                <button class="send-button" data-emote-id="909000034">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000036.png" alt="Top DJ" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Top DJ</p>
+                    <p class="emote-id">ID: 909000036</p>
+                </div>
+                <button class="send-button" data-emote-id="909000036">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000038.png" alt="Power of money" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Power of money</p>
+                    <p class="emote-id">ID: 909000038</p>
+                </div>
+                <button class="send-button" data-emote-id="909000038">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000039.png" alt="Eat my dust" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Eat my dust</p>
+                    <p class="emote-id">ID: 909000039</p>
+                </div>
+                <button class="send-button" data-emote-id="909000039">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000041.png" alt="Kongfu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Kongfu</p>
+                    <p class="emote-id">ID: 909000041</p>
+                </div>
+                <button class="send-button" data-emote-id="909000041">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000045.png" alt="I heart you" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">I heart you</p>
+                    <p class="emote-id">ID: 909000045</p>
+                </div>
+                <button class="send-button" data-emote-id="909000045">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000046.png" alt="Tea Time" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Tea Time</p>
+                    <p class="emote-id">ID: 909000046</p>
+                </div>
+                <button class="send-button" data-emote-id="909000046">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000052.png" alt="Doggie" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Doggie</p>
+                    <p class="emote-id">ID: 909000052</p>
+                </div>
+                <button class="send-button" data-emote-id="909000052">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000055.png" alt="I&#39;m Rich!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">I&#39;m Rich!</p>
+                    <p class="emote-id">ID: 909000055</p>
+                </div>
+                <button class="send-button" data-emote-id="909000055">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000056.png" alt="Make It Rain" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Make It Rain</p>
+                    <p class="emote-id">ID: 909000056</p>
+                </div>
+                <button class="send-button" data-emote-id="909000056">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000057.png" alt="Dust Off" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dust Off</p>
+                    <p class="emote-id">ID: 909000057</p>
+                </div>
+                <button class="send-button" data-emote-id="909000057">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000058.png" alt="Captain Booyah" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Captain Booyah</p>
+                    <p class="emote-id">ID: 909000058</p>
+                </div>
+                <button class="send-button" data-emote-id="909000058">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000060.png" alt="BOOYAH!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">BOOYAH!</p>
+                    <p class="emote-id">ID: 909000060</p>
+                </div>
+                <button class="send-button" data-emote-id="909000060">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000061.png" alt="Bhangra" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bhangra</p>
+                    <p class="emote-id">ID: 909000061</p>
+                </div>
+                <button class="send-button" data-emote-id="909000061">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000062.png" alt="Piece of Cake" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Piece of Cake</p>
+                    <p class="emote-id">ID: 909000062</p>
+                </div>
+                <button class="send-button" data-emote-id="909000062">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000064.png" alt="I&#39;m Saitama!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">I&#39;m Saitama!</p>
+                    <p class="emote-id">ID: 909000064</p>
+                </div>
+                <button class="send-button" data-emote-id="909000064">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000065.png" alt="The Victor" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Victor</p>
+                    <p class="emote-id">ID: 909000065</p>
+                </div>
+                <button class="send-button" data-emote-id="909000065">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000066.png" alt="Sii!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sii!</p>
+                    <p class="emote-id">ID: 909000066</p>
+                </div>
+                <button class="send-button" data-emote-id="909000066">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000067.png" alt="Obliteration" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Obliteration</p>
+                    <p class="emote-id">ID: 909000067</p>
+                </div>
+                <button class="send-button" data-emote-id="909000067">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000069.png" alt="Top Scorer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Top Scorer</p>
+                    <p class="emote-id">ID: 909000069</p>
+                </div>
+                <button class="send-button" data-emote-id="909000069">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000070.png" alt="Triple Kicks" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Triple Kicks</p>
+                    <p class="emote-id">ID: 909000070</p>
+                </div>
+                <button class="send-button" data-emote-id="909000070">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000071.png" alt="Cobra Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Cobra Dance</p>
+                    <p class="emote-id">ID: 909000071</p>
+                </div>
+                <button class="send-button" data-emote-id="909000071">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000072.png" alt="Predator Pulse" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Predator Pulse</p>
+                    <p class="emote-id">ID: 909000072</p>
+                </div>
+                <button class="send-button" data-emote-id="909000072">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000073.png" alt="Ground Punch" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ground Punch</p>
+                    <p class="emote-id">ID: 909000073</p>
+                </div>
+                <button class="send-button" data-emote-id="909000073">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000074.png" alt="The Biker" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Biker</p>
+                    <p class="emote-id">ID: 909000074</p>
+                </div>
+                <button class="send-button" data-emote-id="909000074">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000076.png" alt="One-Finger Pushup" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">One-Finger Pushup</p>
+                    <p class="emote-id">ID: 909000076</p>
+                </div>
+                <button class="send-button" data-emote-id="909000076">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000077.png" alt="Stage Time" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Stage Time</p>
+                    <p class="emote-id">ID: 909000077</p>
+                </div>
+                <button class="send-button" data-emote-id="909000077">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000078.png" alt="Booyah! Balloon" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Booyah! Balloon</p>
+                    <p class="emote-id">ID: 909000078</p>
+                </div>
+                <button class="send-button" data-emote-id="909000078">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000079.png" alt="More Practice" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">More Practice</p>
+                    <p class="emote-id">ID: 909000079</p>
+                </div>
+                <button class="send-button" data-emote-id="909000079">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000080.png" alt="FFWS 2021" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">FFWS 2021</p>
+                    <p class="emote-id">ID: 909000080</p>
+                </div>
+                <button class="send-button" data-emote-id="909000080">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000086.png" alt="Mythos Four" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Mythos Four</p>
+                    <p class="emote-id">ID: 909000086</p>
+                </div>
+                <button class="send-button" data-emote-id="909000086">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000087.png" alt="Champion Grab" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Champion Grab</p>
+                    <p class="emote-id">ID: 909000087</p>
+                </div>
+                <button class="send-button" data-emote-id="909000087">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000088.png" alt="Win and Chill" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Win and Chill</p>
+                    <p class="emote-id">ID: 909000088</p>
+                </div>
+                <button class="send-button" data-emote-id="909000088">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000089.png" alt="Hadouken" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hadouken</p>
+                    <p class="emote-id">ID: 909000089</p>
+                </div>
+                <button class="send-button" data-emote-id="909000089">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000091.png" alt="Big Smash" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Big Smash</p>
+                    <p class="emote-id">ID: 909000091</p>
+                </div>
+                <button class="send-button" data-emote-id="909000091">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000093.png" alt="All In Control" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">All In Control</p>
+                    <p class="emote-id">ID: 909000093</p>
+                </div>
+                <button class="send-button" data-emote-id="909000093">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000094.png" alt="Debugging" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Debugging</p>
+                    <p class="emote-id">ID: 909000094</p>
+                </div>
+                <button class="send-button" data-emote-id="909000094">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000095.png" alt="Waggor Wave" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Waggor Wave</p>
+                    <p class="emote-id">ID: 909000095</p>
+                </div>
+                <button class="send-button" data-emote-id="909000095">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000096.png" alt="Crazy Guitar" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Crazy Guitar</p>
+                    <p class="emote-id">ID: 909000096</p>
+                </div>
+                <button class="send-button" data-emote-id="909000096">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000121.png" alt="Dribble King" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dribble King</p>
+                    <p class="emote-id">ID: 909000121</p>
+                </div>
+                <button class="send-button" data-emote-id="909000121">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000122.png" alt="Name Not Found" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Name Not Found</p>
+                    <p class="emote-id">ID: 909000122</p>
+                </div>
+                <button class="send-button" data-emote-id="909000122">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000123.png" alt="Mind it!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Mind it!</p>
+                    <p class="emote-id">ID: 909000123</p>
+                </div>
+                <button class="send-button" data-emote-id="909000123">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000124.png" alt="Golden Combo" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Golden Combo</p>
+                    <p class="emote-id">ID: 909000124</p>
+                </div>
+                <button class="send-button" data-emote-id="909000124">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000125.png" alt="Sick Moves" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sick Moves</p>
+                    <p class="emote-id">ID: 909000125</p>
+                </div>
+                <button class="send-button" data-emote-id="909000125">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000128.png" alt="Ruler&#39;s Flag" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ruler&#39;s Flag</p>
+                    <p class="emote-id">ID: 909000128</p>
+                </div>
+                <button class="send-button" data-emote-id="909000128">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000129.png" alt="Money Throw" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Money Throw</p>
+                    <p class="emote-id">ID: 909000129</p>
+                </div>
+                <button class="send-button" data-emote-id="909000129">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000130.png" alt="Endless Bullets" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Endless Bullets</p>
+                    <p class="emote-id">ID: 909000130</p>
+                </div>
+                <button class="send-button" data-emote-id="909000130">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000133.png" alt="Fire Slam" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fire Slam</p>
+                    <p class="emote-id">ID: 909000133</p>
+                </div>
+                <button class="send-button" data-emote-id="909000133">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000134.png" alt="Heartbroken" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Heartbroken</p>
+                    <p class="emote-id">ID: 909000134</p>
+                </div>
+                <button class="send-button" data-emote-id="909000134">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000135.png" alt="Rock Paper Scissors" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Rock Paper Scissors</p>
+                    <p class="emote-id">ID: 909000135</p>
+                </div>
+                <button class="send-button" data-emote-id="909000135">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000136.png" alt="Shattered Reality" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shattered Reality</p>
+                    <p class="emote-id">ID: 909000136</p>
+                </div>
+                <button class="send-button" data-emote-id="909000136">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000137.png" alt="Halo of Music" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Halo of Music</p>
+                    <p class="emote-id">ID: 909000137</p>
+                </div>
+                <button class="send-button" data-emote-id="909000137">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000138.png" alt="Burnt BBQ" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Burnt BBQ</p>
+                    <p class="emote-id">ID: 909000138</p>
+                </div>
+                <button class="send-button" data-emote-id="909000138">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000139.png" alt="Switching Steps" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Switching Steps</p>
+                    <p class="emote-id">ID: 909000139</p>
+                </div>
+                <button class="send-button" data-emote-id="909000139">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000140.png" alt="Creed Slay" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Creed Slay</p>
+                    <p class="emote-id">ID: 909000140</p>
+                </div>
+                <button class="send-button" data-emote-id="909000140">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000141.png" alt="Leap of Fail" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Leap of Fail</p>
+                    <p class="emote-id">ID: 909000141</p>
+                </div>
+                <button class="send-button" data-emote-id="909000141">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000142.png" alt="Name Not Found" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Name Not Found</p>
+                    <p class="emote-id">ID: 909000142</p>
+                </div>
+                <button class="send-button" data-emote-id="909000142">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000143.png" alt="Helicopter Shot" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Helicopter Shot</p>
+                    <p class="emote-id">ID: 909000143</p>
+                </div>
+                <button class="send-button" data-emote-id="909000143">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000144.png" alt="Kungfu Tigers" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Kungfu Tigers</p>
+                    <p class="emote-id">ID: 909000144</p>
+                </div>
+                <button class="send-button" data-emote-id="909000144">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909000145.png" alt="Possessed Warrior" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Possessed Warrior</p>
+                    <p class="emote-id">ID: 909000145</p>
+                </div>
+                <button class="send-button" data-emote-id="909000145">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033004.png" alt="Drop Kick" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Drop Kick</p>
+                    <p class="emote-id">ID: 909033004</p>
+                </div>
+                <button class="send-button" data-emote-id="909033004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033005.png" alt="Sit Down!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sit Down!</p>
+                    <p class="emote-id">ID: 909033005</p>
+                </div>
+                <button class="send-button" data-emote-id="909033005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033006.png" alt="BOOYAH Sparks" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">BOOYAH Sparks</p>
+                    <p class="emote-id">ID: 909033006</p>
+                </div>
+                <button class="send-button" data-emote-id="909033006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033007.png" alt="The FFWS Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The FFWS Dance</p>
+                    <p class="emote-id">ID: 909033007</p>
+                </div>
+                <button class="send-button" data-emote-id="909033007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033008.png" alt="Easy Peasy" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Easy Peasy</p>
+                    <p class="emote-id">ID: 909033008</p>
+                </div>
+                <button class="send-button" data-emote-id="909033008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033009.png" alt="Winner Throw" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Winner Throw</p>
+                    <p class="emote-id">ID: 909033009</p>
+                </div>
+                <button class="send-button" data-emote-id="909033009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909033010.png" alt="Weight of Victory" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Weight of Victory</p>
+                    <p class="emote-id">ID: 909033010</p>
+                </div>
+                <button class="send-button" data-emote-id="909033010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034001.png" alt="Chronicle of the Sword" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Chronicle of the Sword</p>
+                    <p class="emote-id">ID: 909034001</p>
+                </div>
+                <button class="send-button" data-emote-id="909034001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034002.png" alt="The Collapse" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Collapse</p>
+                    <p class="emote-id">ID: 909034002</p>
+                </div>
+                <button class="send-button" data-emote-id="909034002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034003.png" alt="Flaming Groove" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flaming Groove</p>
+                    <p class="emote-id">ID: 909034003</p>
+                </div>
+                <button class="send-button" data-emote-id="909034003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034004.png" alt="Energetic" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Energetic</p>
+                    <p class="emote-id">ID: 909034004</p>
+                </div>
+                <button class="send-button" data-emote-id="909034004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034005.png" alt="Ridicule" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ridicule</p>
+                    <p class="emote-id">ID: 909034005</p>
+                </div>
+                <button class="send-button" data-emote-id="909034005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034006.png" alt="Tease Waggor" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Tease Waggor</p>
+                    <p class="emote-id">ID: 909034006</p>
+                </div>
+                <button class="send-button" data-emote-id="909034006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034007.png" alt="Great Conductor" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Great Conductor</p>
+                    <p class="emote-id">ID: 909034007</p>
+                </div>
+                <button class="send-button" data-emote-id="909034007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034008.png" alt="Fake Death" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fake Death</p>
+                    <p class="emote-id">ID: 909034008</p>
+                </div>
+                <button class="send-button" data-emote-id="909034008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034009.png" alt="Twerk" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Twerk</p>
+                    <p class="emote-id">ID: 909034009</p>
+                </div>
+                <button class="send-button" data-emote-id="909034009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034010.png" alt="BR-Ranked Heroic Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">BR-Ranked Heroic Emote</p>
+                    <p class="emote-id">ID: 909034010</p>
+                </div>
+                <button class="send-button" data-emote-id="909034010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034011.png" alt="BR-Ranked Master Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">BR-Ranked Master Emote</p>
+                    <p class="emote-id">ID: 909034011</p>
+                </div>
+                <button class="send-button" data-emote-id="909034011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034012.png" alt="CS-Ranked Heroic Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">CS-Ranked Heroic Emote</p>
+                    <p class="emote-id">ID: 909034012</p>
+                </div>
+                <button class="send-button" data-emote-id="909034012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034013.png" alt="CS-Ranked Master Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">CS-Ranked Master Emote</p>
+                    <p class="emote-id">ID: 909034013</p>
+                </div>
+                <button class="send-button" data-emote-id="909034013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909034014.png" alt="Yes, I do" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Yes, I do</p>
+                    <p class="emote-id">ID: 909034014</p>
+                </div>
+                <button class="send-button" data-emote-id="909034014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035001.png" alt="Free Money!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Free Money!</p>
+                    <p class="emote-id">ID: 909035001</p>
+                </div>
+                <button class="send-button" data-emote-id="909035001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035005.png" alt="Victorious Eagle" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Victorious Eagle</p>
+                    <p class="emote-id">ID: 909035005</p>
+                </div>
+                <button class="send-button" data-emote-id="909035005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035006.png" alt="Flying Saucer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flying Saucer</p>
+                    <p class="emote-id">ID: 909035006</p>
+                </div>
+                <button class="send-button" data-emote-id="909035006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035008.png" alt="Bobble Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bobble Dance</p>
+                    <p class="emote-id">ID: 909035008</p>
+                </div>
+                <button class="send-button" data-emote-id="909035008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035009.png" alt="Weight Training" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Weight Training</p>
+                    <p class="emote-id">ID: 909035009</p>
+                </div>
+                <button class="send-button" data-emote-id="909035009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035010.png" alt="Beautiful Love" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Beautiful Love</p>
+                    <p class="emote-id">ID: 909035010</p>
+                </div>
+                <button class="send-button" data-emote-id="909035010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035011.png" alt="Groove Moves" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Groove Moves</p>
+                    <p class="emote-id">ID: 909035011</p>
+                </div>
+                <button class="send-button" data-emote-id="909035011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035013.png" alt="Louder Please" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Louder Please</p>
+                    <p class="emote-id">ID: 909035013</p>
+                </div>
+                <button class="send-button" data-emote-id="909035013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035014.png" alt="Ninja Stand" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ninja Stand</p>
+                    <p class="emote-id">ID: 909035014</p>
+                </div>
+                <button class="send-button" data-emote-id="909035014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909035015.png" alt="Creator In Action" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Creator In Action</p>
+                    <p class="emote-id">ID: 909035015</p>
+                </div>
+                <button class="send-button" data-emote-id="909035015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036001.png" alt="Ghost Float" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ghost Float</p>
+                    <p class="emote-id">ID: 909036001</p>
+                </div>
+                <button class="send-button" data-emote-id="909036001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036002.png" alt="Shiba Surf" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shiba Surf</p>
+                    <p class="emote-id">ID: 909036002</p>
+                </div>
+                <button class="send-button" data-emote-id="909036002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036003.png" alt="Waiter Walk" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Waiter Walk</p>
+                    <p class="emote-id">ID: 909036003</p>
+                </div>
+                <button class="send-button" data-emote-id="909036003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036004.png" alt="Graffiti Cameraman" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Graffiti Cameraman</p>
+                    <p class="emote-id">ID: 909036004</p>
+                </div>
+                <button class="send-button" data-emote-id="909036004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036005.png" alt="Agile Boxer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Agile Boxer</p>
+                    <p class="emote-id">ID: 909036005</p>
+                </div>
+                <button class="send-button" data-emote-id="909036005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036006.png" alt="Sunbathing" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sunbathing</p>
+                    <p class="emote-id">ID: 909036006</p>
+                </div>
+                <button class="send-button" data-emote-id="909036006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036008.png" alt="Skateboard Swag" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Skateboard Swag</p>
+                    <p class="emote-id">ID: 909036008</p>
+                </div>
+                <button class="send-button" data-emote-id="909036008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036009.png" alt="Phantom Tamer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Phantom Tamer</p>
+                    <p class="emote-id">ID: 909036009</p>
+                </div>
+                <button class="send-button" data-emote-id="909036009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036010.png" alt="The Signal" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Signal</p>
+                    <p class="emote-id">ID: 909036010</p>
+                </div>
+                <button class="send-button" data-emote-id="909036010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036011.png" alt="Eternal Descent" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Eternal Descent</p>
+                    <p class="emote-id">ID: 909036011</p>
+                </div>
+                <button class="send-button" data-emote-id="909036011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036012.png" alt="Swaggy Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Swaggy Dance</p>
+                    <p class="emote-id">ID: 909036012</p>
+                </div>
+                <button class="send-button" data-emote-id="909036012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909036014.png" alt="Admire" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Admire</p>
+                    <p class="emote-id">ID: 909036014</p>
+                </div>
+                <button class="send-button" data-emote-id="909036014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037001.png" alt="Reindeer Float" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Reindeer Float</p>
+                    <p class="emote-id">ID: 909037001</p>
+                </div>
+                <button class="send-button" data-emote-id="909037001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037002.png" alt="Bamboo Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bamboo Dance</p>
+                    <p class="emote-id">ID: 909037002</p>
+                </div>
+                <button class="send-button" data-emote-id="909037002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037003.png" alt="Dance of Constellation" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dance of Constellation</p>
+                    <p class="emote-id">ID: 909037003</p>
+                </div>
+                <button class="send-button" data-emote-id="909037003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037004.png" alt="Trophy Grab" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Trophy Grab</p>
+                    <p class="emote-id">ID: 909037004</p>
+                </div>
+                <button class="send-button" data-emote-id="909037004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037005.png" alt="Starry Hands" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Starry Hands</p>
+                    <p class="emote-id">ID: 909037005</p>
+                </div>
+                <button class="send-button" data-emote-id="909037005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037006.png" alt="Yum" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Yum</p>
+                    <p class="emote-id">ID: 909037006</p>
+                </div>
+                <button class="send-button" data-emote-id="909037006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037007.png" alt="Happy Dancing" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Happy Dancing</p>
+                    <p class="emote-id">ID: 909037007</p>
+                </div>
+                <button class="send-button" data-emote-id="909037007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037008.png" alt="Juggle" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Juggle</p>
+                    <p class="emote-id">ID: 909037008</p>
+                </div>
+                <button class="send-button" data-emote-id="909037008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037009.png" alt="Neon Sign" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Neon Sign</p>
+                    <p class="emote-id">ID: 909037009</p>
+                </div>
+                <button class="send-button" data-emote-id="909037009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037010.png" alt="Beast Tease" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Beast Tease</p>
+                    <p class="emote-id">ID: 909037010</p>
+                </div>
+                <button class="send-button" data-emote-id="909037010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909037012.png" alt="Clap Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Clap Dance</p>
+                    <p class="emote-id">ID: 909037012</p>
+                </div>
+                <button class="send-button" data-emote-id="909037012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038001.png" alt="The Influencer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Influencer</p>
+                    <p class="emote-id">ID: 909038001</p>
+                </div>
+                <button class="send-button" data-emote-id="909038001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038002.png" alt="Name Not Found" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Name Not Found</p>
+                    <p class="emote-id">ID: 909038002</p>
+                </div>
+                <button class="send-button" data-emote-id="909038002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038003.png" alt="Techno Blast" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Techno Blast</p>
+                    <p class="emote-id">ID: 909038003</p>
+                </div>
+                <button class="send-button" data-emote-id="909038003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038004.png" alt="Be My Valentine" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Be My Valentine</p>
+                    <p class="emote-id">ID: 909038004</p>
+                </div>
+                <button class="send-button" data-emote-id="909038004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038005.png" alt="Angry Walk" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Angry Walk</p>
+                    <p class="emote-id">ID: 909038005</p>
+                </div>
+                <button class="send-button" data-emote-id="909038005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038006.png" alt="Make Some Noise" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Make Some Noise</p>
+                    <p class="emote-id">ID: 909038006</p>
+                </div>
+                <button class="send-button" data-emote-id="909038006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038008.png" alt="Croco Hooray" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Croco Hooray</p>
+                    <p class="emote-id">ID: 909038008</p>
+                </div>
+                <button class="send-button" data-emote-id="909038008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038009.png" alt="Scorpio Spin" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Scorpio Spin</p>
+                    <p class="emote-id">ID: 909038009</p>
+                </div>
+                <button class="send-button" data-emote-id="909038009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038011.png" alt="Shall We Dance?" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shall We Dance?</p>
+                    <p class="emote-id">ID: 909038011</p>
+                </div>
+                <button class="send-button" data-emote-id="909038011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909038013.png" alt="Spin Master" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Spin Master</p>
+                    <p class="emote-id">ID: 909038013</p>
+                </div>
+                <button class="send-button" data-emote-id="909038013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039001.png" alt="Festival Celebration" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Festival Celebration</p>
+                    <p class="emote-id">ID: 909039001</p>
+                </div>
+                <button class="send-button" data-emote-id="909039001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039002.png" alt="Artistic Musical Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Artistic Musical Dance</p>
+                    <p class="emote-id">ID: 909039002</p>
+                </div>
+                <button class="send-button" data-emote-id="909039002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039003.png" alt="Forward, Backward" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Forward, Backward</p>
+                    <p class="emote-id">ID: 909039003</p>
+                </div>
+                <button class="send-button" data-emote-id="909039003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039004.png" alt="Scorpion Friend" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Scorpion Friend</p>
+                    <p class="emote-id">ID: 909039004</p>
+                </div>
+                <button class="send-button" data-emote-id="909039004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039005.png" alt="Aching Power" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Aching Power</p>
+                    <p class="emote-id">ID: 909039005</p>
+                </div>
+                <button class="send-button" data-emote-id="909039005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039006.png" alt="Earthly Force" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Earthly Force</p>
+                    <p class="emote-id">ID: 909039006</p>
+                </div>
+                <button class="send-button" data-emote-id="909039006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039007.png" alt="Grenade Magic" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Grenade Magic</p>
+                    <p class="emote-id">ID: 909039007</p>
+                </div>
+                <button class="send-button" data-emote-id="909039007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039008.png" alt="Oh Yeah!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Oh Yeah!</p>
+                    <p class="emote-id">ID: 909039008</p>
+                </div>
+                <button class="send-button" data-emote-id="909039008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039009.png" alt="Grace On Wheels" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Grace On Wheels</p>
+                    <p class="emote-id">ID: 909039009</p>
+                </div>
+                <button class="send-button" data-emote-id="909039009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039010.png" alt="Flex" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flex</p>
+                    <p class="emote-id">ID: 909039010</p>
+                </div>
+                <button class="send-button" data-emote-id="909039010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039011.png" alt="Crimson Doom" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Crimson Doom</p>
+                    <p class="emote-id">ID: 909039011</p>
+                </div>
+                <button class="send-button" data-emote-id="909039011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039012.png" alt="Fire Beast Tamer" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fire Beast Tamer</p>
+                    <p class="emote-id">ID: 909039012</p>
+                </div>
+                <button class="send-button" data-emote-id="909039012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039013.png" alt="Crimson Tunes" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Crimson Tunes</p>
+                    <p class="emote-id">ID: 909039013</p>
+                </div>
+                <button class="send-button" data-emote-id="909039013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909039014.png" alt="Swaggy V-Steps" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Swaggy V-Steps</p>
+                    <p class="emote-id">ID: 909039014</p>
+                </div>
+                <button class="send-button" data-emote-id="909039014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040001.png" alt="The Chromatic Finish" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Chromatic Finish</p>
+                    <p class="emote-id">ID: 909040001</p>
+                </div>
+                <button class="send-button" data-emote-id="909040001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040002.png" alt="Smash the Feather" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Smash the Feather</p>
+                    <p class="emote-id">ID: 909040002</p>
+                </div>
+                <button class="send-button" data-emote-id="909040002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040003.png" alt="Sonorous Steps" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sonorous Steps</p>
+                    <p class="emote-id">ID: 909040003</p>
+                </div>
+                <button class="send-button" data-emote-id="909040003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040004.png" alt="Fishing for Wisdom" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fishing for Wisdom</p>
+                    <p class="emote-id">ID: 909040004</p>
+                </div>
+                <button class="send-button" data-emote-id="909040004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040005.png" alt="Chromatic Pop Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Chromatic Pop Dance</p>
+                    <p class="emote-id">ID: 909040005</p>
+                </div>
+                <button class="send-button" data-emote-id="909040005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040006.png" alt="Chroma Twist Twist" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Chroma Twist Twist</p>
+                    <p class="emote-id">ID: 909040006</p>
+                </div>
+                <button class="send-button" data-emote-id="909040006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040008.png" alt="Birth of Justice" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Birth of Justice</p>
+                    <p class="emote-id">ID: 909040008</p>
+                </div>
+                <button class="send-button" data-emote-id="909040008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040009.png" alt="Spider-Sense" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Spider-Sense</p>
+                    <p class="emote-id">ID: 909040009</p>
+                </div>
+                <button class="send-button" data-emote-id="909040009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040011.png" alt="Play With Thunderbolt" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Play With Thunderbolt</p>
+                    <p class="emote-id">ID: 909040011</p>
+                </div>
+                <button class="send-button" data-emote-id="909040011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040012.png" alt="6th Anniversary Celebration" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">6th Anniversary Celebration</p>
+                    <p class="emote-id">ID: 909040012</p>
+                </div>
+                <button class="send-button" data-emote-id="909040012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040013.png" alt="Wisdom Swing" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Wisdom Swing</p>
+                    <p class="emote-id">ID: 909040013</p>
+                </div>
+                <button class="send-button" data-emote-id="909040013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909040014.png" alt="Helicopter Shot" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Helicopter Shot</p>
+                    <p class="emote-id">ID: 909040014</p>
+                </div>
+                <button class="send-button" data-emote-id="909040014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041001.png" alt="Thunder Breathing First Form: Thunder Flash" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Thunder Breathing First Form: Thunder Flash</p>
+                    <p class="emote-id">ID: 909041001</p>
+                </div>
+                <button class="send-button" data-emote-id="909041001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041002.png" alt="Water Breathing Sixth Form: Whirlpool" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Water Breathing Sixth Form: Whirlpool</p>
+                    <p class="emote-id">ID: 909041002</p>
+                </div>
+                <button class="send-button" data-emote-id="909041002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041003.png" alt="Beast Breathing Fifth Fang: Crazy Cutting" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Beast Breathing Fifth Fang: Crazy Cutting</p>
+                    <p class="emote-id">ID: 909041003</p>
+                </div>
+                <button class="send-button" data-emote-id="909041003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041004.png" alt="Flying Ink Sword" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flying Ink Sword</p>
+                    <p class="emote-id">ID: 909041004</p>
+                </div>
+                <button class="send-button" data-emote-id="909041004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041005.png" alt="Diz My Popblaster" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Diz My Popblaster</p>
+                    <p class="emote-id">ID: 909041005</p>
+                </div>
+                <button class="send-button" data-emote-id="909041005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041006.png" alt="Dance Puppet, Dance!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dance Puppet, Dance!</p>
+                    <p class="emote-id">ID: 909041006</p>
+                </div>
+                <button class="send-button" data-emote-id="909041006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041007.png" alt="High Knees" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">High Knees</p>
+                    <p class="emote-id">ID: 909041007</p>
+                </div>
+                <button class="send-button" data-emote-id="909041007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041008.png" alt="Bony Fumes" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bony Fumes</p>
+                    <p class="emote-id">ID: 909041008</p>
+                </div>
+                <button class="send-button" data-emote-id="909041008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041009.png" alt="Feel the Electricity" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Feel the Electricity</p>
+                    <p class="emote-id">ID: 909041009</p>
+                </div>
+                <button class="send-button" data-emote-id="909041009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041010.png" alt="Whac-A-Cotton" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Whac-A-Cotton</p>
+                    <p class="emote-id">ID: 909041010</p>
+                </div>
+                <button class="send-button" data-emote-id="909041010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041011.png" alt="Honorable Mention Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Honorable Mention Emote</p>
+                    <p class="emote-id">ID: 909041011</p>
+                </div>
+                <button class="send-button" data-emote-id="909041011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041012.png" alt="BR-Ranked Grandmaster Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">BR-Ranked Grandmaster Emote</p>
+                    <p class="emote-id">ID: 909041012</p>
+                </div>
+                <button class="send-button" data-emote-id="909041012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041013.png" alt="CS-Ranked Grandmaster Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">CS-Ranked Grandmaster Emote</p>
+                    <p class="emote-id">ID: 909041013</p>
+                </div>
+                <button class="send-button" data-emote-id="909041013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041014.png" alt="Monster Clubbing" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Monster Clubbing</p>
+                    <p class="emote-id">ID: 909041014</p>
+                </div>
+                <button class="send-button" data-emote-id="909041014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909041015.png" alt="Basudara Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Basudara Dance</p>
+                    <p class="emote-id">ID: 909041015</p>
+                </div>
+                <button class="send-button" data-emote-id="909041015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042001.png" alt="Stir-Fry Frostfire" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Stir-Fry Frostfire</p>
+                    <p class="emote-id">ID: 909042001</p>
+                </div>
+                <button class="send-button" data-emote-id="909042001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042002.png" alt="Money Rain" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Money Rain</p>
+                    <p class="emote-id">ID: 909042002</p>
+                </div>
+                <button class="send-button" data-emote-id="909042002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042003.png" alt="Frostfire&#39;s Calling" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Frostfire&#39;s Calling</p>
+                    <p class="emote-id">ID: 909042003</p>
+                </div>
+                <button class="send-button" data-emote-id="909042003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042004.png" alt="Stomping Foot" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Stomping Foot</p>
+                    <p class="emote-id">ID: 909042004</p>
+                </div>
+                <button class="send-button" data-emote-id="909042004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042005.png" alt="This Way" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">This Way</p>
+                    <p class="emote-id">ID: 909042005</p>
+                </div>
+                <button class="send-button" data-emote-id="909042005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042006.png" alt="Excellent Service" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Excellent Service</p>
+                    <p class="emote-id">ID: 909042006</p>
+                </div>
+                <button class="send-button" data-emote-id="909042006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042009.png" alt="Celebration Schuss" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Celebration Schuss</p>
+                    <p class="emote-id">ID: 909042009</p>
+                </div>
+                <button class="send-button" data-emote-id="909042009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042011.png" alt="Dawn Voyage Emote" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dawn Voyage Emote</p>
+                    <p class="emote-id">ID: 909042011</p>
+                </div>
+                <button class="send-button" data-emote-id="909042011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042012.png" alt="Lamborghini Ride" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Lamborghini Ride</p>
+                    <p class="emote-id">ID: 909042012</p>
+                </div>
+                <button class="send-button" data-emote-id="909042012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042013.png" alt="Hello! Frostfire Style" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hello! Frostfire Style</p>
+                    <p class="emote-id">ID: 909042013</p>
+                </div>
+                <button class="send-button" data-emote-id="909042013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042016.png" alt="Hand Grooves" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hand Grooves</p>
+                    <p class="emote-id">ID: 909042016</p>
+                </div>
+                <button class="send-button" data-emote-id="909042016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042017.png" alt="Free Fire Toiletman" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Free Fire Toiletman</p>
+                    <p class="emote-id">ID: 909042017</p>
+                </div>
+                <button class="send-button" data-emote-id="909042017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909042018.png" alt="Kemusan" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Kemusan</p>
+                    <p class="emote-id">ID: 909042018</p>
+                </div>
+                <button class="send-button" data-emote-id="909042018">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043001.png" alt="Ribbit Rider" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Ribbit Rider</p>
+                    <p class="emote-id">ID: 909043001</p>
+                </div>
+                <button class="send-button" data-emote-id="909043001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043002.png" alt="Inner Self Mastery" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Inner Self Mastery</p>
+                    <p class="emote-id">ID: 909043002</p>
+                </div>
+                <button class="send-button" data-emote-id="909043002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043003.png" alt="Emperor&#39;s Treasure Machine" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Emperor&#39;s Treasure Machine</p>
+                    <p class="emote-id">ID: 909043003</p>
+                </div>
+                <button class="send-button" data-emote-id="909043003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043004.png" alt="Why So Chaos?" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Why So Chaos?</p>
+                    <p class="emote-id">ID: 909043004</p>
+                </div>
+                <button class="send-button" data-emote-id="909043004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043005.png" alt="Huge Feast" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Huge Feast</p>
+                    <p class="emote-id">ID: 909043005</p>
+                </div>
+                <button class="send-button" data-emote-id="909043005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043006.png" alt="Color Burst" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Color Burst</p>
+                    <p class="emote-id">ID: 909043006</p>
+                </div>
+                <button class="send-button" data-emote-id="909043006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043007.png" alt="Dragon Swipe" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Dragon Swipe</p>
+                    <p class="emote-id">ID: 909043007</p>
+                </div>
+                <button class="send-button" data-emote-id="909043007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043008.png" alt="Samba" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Samba</p>
+                    <p class="emote-id">ID: 909043008</p>
+                </div>
+                <button class="send-button" data-emote-id="909043008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043009.png" alt="Speed Summon" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Speed Summon</p>
+                    <p class="emote-id">ID: 909043009</p>
+                </div>
+                <button class="send-button" data-emote-id="909043009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043010.png" alt="What a Match" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">What a Match</p>
+                    <p class="emote-id">ID: 909043010</p>
+                </div>
+                <button class="send-button" data-emote-id="909043010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909043013.png" alt="What a Pair" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">What a Pair</p>
+                    <p class="emote-id">ID: 909043013</p>
+                </div>
+                <button class="send-button" data-emote-id="909043013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044001.png" alt="Byte Mounting" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Byte Mounting</p>
+                    <p class="emote-id">ID: 909044001</p>
+                </div>
+                <button class="send-button" data-emote-id="909044001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044002.png" alt="The Unicyclist" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Unicyclist</p>
+                    <p class="emote-id">ID: 909044002</p>
+                </div>
+                <button class="send-button" data-emote-id="909044002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044003.png" alt="Basket Rafting" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Basket Rafting</p>
+                    <p class="emote-id">ID: 909044003</p>
+                </div>
+                <button class="send-button" data-emote-id="909044003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044004.png" alt="Happy Lamb Shouldering" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Happy Lamb Shouldering</p>
+                    <p class="emote-id">ID: 909044004</p>
+                </div>
+                <button class="send-button" data-emote-id="909044004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044005.png" alt="Paradox of Enlightenment" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Paradox of Enlightenment</p>
+                    <p class="emote-id">ID: 909044005</p>
+                </div>
+                <button class="send-button" data-emote-id="909044005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044006.png" alt="Harmonious Paradox" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Harmonious Paradox</p>
+                    <p class="emote-id">ID: 909044006</p>
+                </div>
+                <button class="send-button" data-emote-id="909044006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044007.png" alt="Raise Your Thumb!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Raise Your Thumb!</p>
+                    <p class="emote-id">ID: 909044007</p>
+                </div>
+                <button class="send-button" data-emote-id="909044007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044015.png" alt="The Final Paradox" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Final Paradox</p>
+                    <p class="emote-id">ID: 909044015</p>
+                </div>
+                <button class="send-button" data-emote-id="909044015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909044016.png" alt="Honk Up!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Honk Up!</p>
+                    <p class="emote-id">ID: 909044016</p>
+                </div>
+                <button class="send-button" data-emote-id="909044016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045002.png" alt="Spring Rocker" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Spring Rocker</p>
+                    <p class="emote-id">ID: 909045002</p>
+                </div>
+                <button class="send-button" data-emote-id="909045002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045003.png" alt="Giddy Up!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Giddy Up!</p>
+                    <p class="emote-id">ID: 909045003</p>
+                </div>
+                <button class="send-button" data-emote-id="909045003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045004.png" alt="The Goosy Dance" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Goosy Dance</p>
+                    <p class="emote-id">ID: 909045004</p>
+                </div>
+                <button class="send-button" data-emote-id="909045004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045005.png" alt="Captain Victor" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Captain Victor</p>
+                    <p class="emote-id">ID: 909045005</p>
+                </div>
+                <button class="send-button" data-emote-id="909045005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045010.png" alt="A Flower Salute" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">A Flower Salute</p>
+                    <p class="emote-id">ID: 909045010</p>
+                </div>
+                <button class="send-button" data-emote-id="909045010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045011.png" alt="Little Foxy Run" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Little Foxy Run</p>
+                    <p class="emote-id">ID: 909045011</p>
+                </div>
+                <button class="send-button" data-emote-id="909045011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045012.png" alt="Mr. Waggor&#39;s Seesaw" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Mr. Waggor&#39;s Seesaw</p>
+                    <p class="emote-id">ID: 909045012</p>
+                </div>
+                <button class="send-button" data-emote-id="909045012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045015.png" alt="Floating Meditation" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Floating Meditation</p>
+                    <p class="emote-id">ID: 909045015</p>
+                </div>
+                <button class="send-button" data-emote-id="909045015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045016.png" alt="Naatu Naatu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Naatu Naatu</p>
+                    <p class="emote-id">ID: 909045016</p>
+                </div>
+                <button class="send-button" data-emote-id="909045016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909045017.png" alt="Champion&#39;s Walk" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Champion&#39;s Walk</p>
+                    <p class="emote-id">ID: 909045017</p>
+                </div>
+                <button class="send-button" data-emote-id="909045017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046001.png" alt="Aura Boarder" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Aura Boarder</p>
+                    <p class="emote-id">ID: 909046001</p>
+                </div>
+                <button class="send-button" data-emote-id="909046001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046002.png" alt="Who&#39;s the Booyah Champ!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Who&#39;s the Booyah Champ!</p>
+                    <p class="emote-id">ID: 909046002</p>
+                </div>
+                <button class="send-button" data-emote-id="909046002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046003.png" alt="Controlled Combustion" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Controlled Combustion</p>
+                    <p class="emote-id">ID: 909046003</p>
+                </div>
+                <button class="send-button" data-emote-id="909046003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046004.png" alt="Cheers to Victory!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Cheers to Victory!</p>
+                    <p class="emote-id">ID: 909046004</p>
+                </div>
+                <button class="send-button" data-emote-id="909046004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046005.png" alt="Shoe Shining" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shoe Shining</p>
+                    <p class="emote-id">ID: 909046005</p>
+                </div>
+                <button class="send-button" data-emote-id="909046005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046006.png" alt="Gunspinning" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Gunspinning</p>
+                    <p class="emote-id">ID: 909046006</p>
+                </div>
+                <button class="send-button" data-emote-id="909046006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046007.png" alt="Crowd Pleaser" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Crowd Pleaser</p>
+                    <p class="emote-id">ID: 909046007</p>
+                </div>
+                <button class="send-button" data-emote-id="909046007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046008.png" alt="No Sweat" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">No Sweat</p>
+                    <p class="emote-id">ID: 909046008</p>
+                </div>
+                <button class="send-button" data-emote-id="909046008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046009.png" alt="Magma Quake" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Magma Quake</p>
+                    <p class="emote-id">ID: 909046009</p>
+                </div>
+                <button class="send-button" data-emote-id="909046009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046010.png" alt="Max Firepower" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Max Firepower</p>
+                    <p class="emote-id">ID: 909046010</p>
+                </div>
+                <button class="send-button" data-emote-id="909046010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046011.png" alt="Can&#39;t Touch This" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Can&#39;t Touch This</p>
+                    <p class="emote-id">ID: 909046011</p>
+                </div>
+                <button class="send-button" data-emote-id="909046011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046012.png" alt="Firestarter" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Firestarter</p>
+                    <p class="emote-id">ID: 909046012</p>
+                </div>
+                <button class="send-button" data-emote-id="909046012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046013.png" alt="FFWS Flag Flair" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">FFWS Flag Flair</p>
+                    <p class="emote-id">ID: 909046013</p>
+                </div>
+                <button class="send-button" data-emote-id="909046013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046014.png" alt="Beat Drop" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Beat Drop</p>
+                    <p class="emote-id">ID: 909046014</p>
+                </div>
+                <button class="send-button" data-emote-id="909046014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046015.png" alt="Isagi&#39;s Spatial Awareness" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Isagi&#39;s Spatial Awareness</p>
+                    <p class="emote-id">ID: 909046015</p>
+                </div>
+                <button class="send-button" data-emote-id="909046015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046016.png" alt="Nagi&#39;s Trapping" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Nagi&#39;s Trapping</p>
+                    <p class="emote-id">ID: 909046016</p>
+                </div>
+                <button class="send-button" data-emote-id="909046016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909046017.png" alt="Soaring Up" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Soaring Up</p>
+                    <p class="emote-id">ID: 909046017</p>
+                </div>
+                <button class="send-button" data-emote-id="909046017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047001.png" alt="I Won&#39;t Bow Down" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">I Won&#39;t Bow Down</p>
+                    <p class="emote-id">ID: 909047001</p>
+                </div>
+                <button class="send-button" data-emote-id="909047001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047002.png" alt="Aurora Iridescence" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Aurora Iridescence</p>
+                    <p class="emote-id">ID: 909047002</p>
+                </div>
+                <button class="send-button" data-emote-id="909047002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047003.png" alt="Couch For Two" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Couch For Two</p>
+                    <p class="emote-id">ID: 909047003</p>
+                </div>
+                <button class="send-button" data-emote-id="909047003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047004.png" alt="Flutter Dash" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flutter Dash</p>
+                    <p class="emote-id">ID: 909047004</p>
+                </div>
+                <button class="send-button" data-emote-id="909047004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047005.png" alt="Slippery Throne" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Slippery Throne</p>
+                    <p class="emote-id">ID: 909047005</p>
+                </div>
+                <button class="send-button" data-emote-id="909047005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047006.png" alt="Acceptance Speech" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Acceptance Speech</p>
+                    <p class="emote-id">ID: 909047006</p>
+                </div>
+                <button class="send-button" data-emote-id="909047006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047007.png" alt="Love Me, Love Me Not" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Love Me, Love Me Not</p>
+                    <p class="emote-id">ID: 909047007</p>
+                </div>
+                <button class="send-button" data-emote-id="909047007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047008.png" alt="Scissor Savvy" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Scissor Savvy</p>
+                    <p class="emote-id">ID: 909047008</p>
+                </div>
+                <button class="send-button" data-emote-id="909047008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047009.png" alt="The Thinker" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Thinker</p>
+                    <p class="emote-id">ID: 909047009</p>
+                </div>
+                <button class="send-button" data-emote-id="909047009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047012.png" alt="JKT48 No.1" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">JKT48 No.1</p>
+                    <p class="emote-id">ID: 909047012</p>
+                </div>
+                <button class="send-button" data-emote-id="909047012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047015.png" alt="Rasengan" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Rasengan</p>
+                    <p class="emote-id">ID: 909047015</p>
+                </div>
+                <button class="send-button" data-emote-id="909047015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909047019.png" alt="Clone Jutsu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Clone Jutsu</p>
+                    <p class="emote-id">ID: 909047019</p>
+                </div>
+                <button class="send-button" data-emote-id="909047019">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048001.png" alt="To the Rescue" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">To the Rescue</p>
+                    <p class="emote-id">ID: 909048001</p>
+                </div>
+                <button class="send-button" data-emote-id="909048001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048002.png" alt="Midnight Peruse" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Midnight Peruse</p>
+                    <p class="emote-id">ID: 909048002</p>
+                </div>
+                <button class="send-button" data-emote-id="909048002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048003.png" alt="Guitar Groove" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Guitar Groove</p>
+                    <p class="emote-id">ID: 909048003</p>
+                </div>
+                <button class="send-button" data-emote-id="909048003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048004.png" alt="Keyboard Player" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Keyboard Player</p>
+                    <p class="emote-id">ID: 909048004</p>
+                </div>
+                <button class="send-button" data-emote-id="909048004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048005.png" alt="On Drums" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">On Drums</p>
+                    <p class="emote-id">ID: 909048005</p>
+                </div>
+                <button class="send-button" data-emote-id="909048005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048006.png" alt="Chac-Chac" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Chac-Chac</p>
+                    <p class="emote-id">ID: 909048006</p>
+                </div>
+                <button class="send-button" data-emote-id="909048006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048007.png" alt="Pillow Fight" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Pillow Fight</p>
+                    <p class="emote-id">ID: 909048007</p>
+                </div>
+                <button class="send-button" data-emote-id="909048007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048009.png" alt="Goofy Camel" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Goofy Camel</p>
+                    <p class="emote-id">ID: 909048009</p>
+                </div>
+                <button class="send-button" data-emote-id="909048009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048010.png" alt="Hit a Six!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hit a Six!</p>
+                    <p class="emote-id">ID: 909048010</p>
+                </div>
+                <button class="send-button" data-emote-id="909048010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048011.png" alt="Flag Summon" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flag Summon</p>
+                    <p class="emote-id">ID: 909048011</p>
+                </div>
+                <button class="send-button" data-emote-id="909048011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048014.png" alt="Slurp slurp!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Slurp slurp!</p>
+                    <p class="emote-id">ID: 909048014</p>
+                </div>
+                <button class="send-button" data-emote-id="909048014">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048015.png" alt="Sketching" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sketching</p>
+                    <p class="emote-id">ID: 909048015</p>
+                </div>
+                <button class="send-button" data-emote-id="909048015">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048016.png" alt="Half-Time Chilling" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Half-Time Chilling</p>
+                    <p class="emote-id">ID: 909048016</p>
+                </div>
+                <button class="send-button" data-emote-id="909048016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909048017.png" alt="Throw-In" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Throw-In</p>
+                    <p class="emote-id">ID: 909048017</p>
+                </div>
+                <button class="send-button" data-emote-id="909048017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049001.png" alt="Nailoong Time!" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Nailoong Time!</p>
+                    <p class="emote-id">ID: 909049001</p>
+                </div>
+                <button class="send-button" data-emote-id="909049001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049002.png" alt="Hand Raise" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hand Raise</p>
+                    <p class="emote-id">ID: 909049002</p>
+                </div>
+                <button class="send-button" data-emote-id="909049002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049003.png" alt="Kick It Up" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Kick It Up</p>
+                    <p class="emote-id">ID: 909049003</p>
+                </div>
+                <button class="send-button" data-emote-id="909049003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049006.png" alt="Creation Days" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Creation Days</p>
+                    <p class="emote-id">ID: 909049006</p>
+                </div>
+                <button class="send-button" data-emote-id="909049006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049007.png" alt="Raining Coins" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Raining Coins</p>
+                    <p class="emote-id">ID: 909049007</p>
+                </div>
+                <button class="send-button" data-emote-id="909049007">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049008.png" alt="Clap Clap Hooray" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Clap Clap Hooray</p>
+                    <p class="emote-id">ID: 909049008</p>
+                </div>
+                <button class="send-button" data-emote-id="909049008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049009.png" alt="Infinite Loops" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Infinite Loops</p>
+                    <p class="emote-id">ID: 909049009</p>
+                </div>
+                <button class="send-button" data-emote-id="909049009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049011.png" alt="Boxing Machine" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Boxing Machine</p>
+                    <p class="emote-id">ID: 909049011</p>
+                </div>
+                <button class="send-button" data-emote-id="909049011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049013.png" alt="Comic Barf" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Comic Barf</p>
+                    <p class="emote-id">ID: 909049013</p>
+                </div>
+                <button class="send-button" data-emote-id="909049013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049016.png" alt="Spear Spin" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Spear Spin</p>
+                    <p class="emote-id">ID: 909049016</p>
+                </div>
+                <button class="send-button" data-emote-id="909049016">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049017.png" alt="Flag Wave" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flag Wave</p>
+                    <p class="emote-id">ID: 909049017</p>
+                </div>
+                <button class="send-button" data-emote-id="909049017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909049018.png" alt="Disco Dazzle" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Disco Dazzle</p>
+                    <p class="emote-id">ID: 909049018</p>
+                </div>
+                <button class="send-button" data-emote-id="909049018">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050002.png" alt="Reanimation Jutsu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Reanimation Jutsu</p>
+                    <p class="emote-id">ID: 909050002</p>
+                </div>
+                <button class="send-button" data-emote-id="909050002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050003.png" alt="The Final Battle" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Final Battle</p>
+                    <p class="emote-id">ID: 909050003</p>
+                </div>
+                <button class="send-button" data-emote-id="909050003">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050005.png" alt="Fire Style: Fireball Jutsu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Fire Style: Fireball Jutsu</p>
+                    <p class="emote-id">ID: 909050005</p>
+                </div>
+                <button class="send-button" data-emote-id="909050005">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050006.png" alt="Flying Raijin Jutsu" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flying Raijin Jutsu</p>
+                    <p class="emote-id">ID: 909050006</p>
+                </div>
+                <button class="send-button" data-emote-id="909050006">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050008.png" alt="Hammer Slam" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Hammer Slam</p>
+                    <p class="emote-id">ID: 909050008</p>
+                </div>
+                <button class="send-button" data-emote-id="909050008">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050009.png" alt="The Rings" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">The Rings</p>
+                    <p class="emote-id">ID: 909050009</p>
+                </div>
+                <button class="send-button" data-emote-id="909050009">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050010.png" alt="Drum Twirl" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Drum Twirl</p>
+                    <p class="emote-id">ID: 909050010</p>
+                </div>
+                <button class="send-button" data-emote-id="909050010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050011.png" alt="Bunny Action" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bunny Action</p>
+                    <p class="emote-id">ID: 909050011</p>
+                </div>
+                <button class="send-button" data-emote-id="909050011">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050012.png" alt="Broom Swoosh" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Broom Swoosh</p>
+                    <p class="emote-id">ID: 909050012</p>
+                </div>
+                <button class="send-button" data-emote-id="909050012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050013.png" alt="Blade from Heart" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Blade from Heart</p>
+                    <p class="emote-id">ID: 909050013</p>
+                </div>
+                <button class="send-button" data-emote-id="909050013">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050017.png" alt="Bunny Wiggle" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Bunny Wiggle</p>
+                    <p class="emote-id">ID: 909050017</p>
+                </div>
+                <button class="send-button" data-emote-id="909050017">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050018.png" alt="Flaming Heart" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Flaming Heart</p>
+                    <p class="emote-id">ID: 909050018</p>
+                </div>
+                <button class="send-button" data-emote-id="909050018">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050019.png" alt="Rain or Shine" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Rain or Shine</p>
+                    <p class="emote-id">ID: 909050019</p>
+                </div>
+                <button class="send-button" data-emote-id="909050019">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050020.png" alt="Sholay" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Sholay</p>
+                    <p class="emote-id">ID: 909050020</p>
+                </div>
+                <button class="send-button" data-emote-id="909050020">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050021.png" alt="Peak Points" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Peak Points</p>
+                    <p class="emote-id">ID: 909050021</p>
+                </div>
+                <button class="send-button" data-emote-id="909050021">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050027.png" alt="Boat Race Aura" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Boat Race Aura</p>
+                    <p class="emote-id">ID: 909050027</p>
+                </div>
+                <button class="send-button" data-emote-id="909050027">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909050028.png" alt="Boat Race Rowing" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Boat Race Rowing</p>
+                    <p class="emote-id">ID: 909050028</p>
+                </div>
+                <button class="send-button" data-emote-id="909050028">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051001.png" alt="Prismatic Flight" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Prismatic Flight</p>
+                    <p class="emote-id">ID: 909051001</p>
+                </div>
+                <button class="send-button" data-emote-id="909051001">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051002.png" alt="Name Not Found" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Name Not Found</p>
+                    <p class="emote-id">ID: 909051002</p>
+                </div>
+                <button class="send-button" data-emote-id="909051002">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051004.png" alt="Shower Time" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Shower Time</p>
+                    <p class="emote-id">ID: 909051004</p>
+                </div>
+                <button class="send-button" data-emote-id="909051004">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051010.png" alt="On Motorbike" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">On Motorbike</p>
+                    <p class="emote-id">ID: 909051010</p>
+                </div>
+                <button class="send-button" data-emote-id="909051010">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051012.png" alt="Celestial Shot" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Celestial Shot</p>
+                    <p class="emote-id">ID: 909051012</p>
+                </div>
+                <button class="send-button" data-emote-id="909051012">Send</button>
+            </div>
+            
+            <div class="emote-item">
+                <img data-src="/static/images/909051013.png" alt="Red Petals" class="lazy-emote-image">
+                <div class="emote-details">
+                    <p class="emote-name">Red Petals</p>
+                    <p class="emote-id">ID: 909051013</p>
+                </div>
+                <button class="send-button" data-emote-id="909051013">Send</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // ===== SCRIPT FOR POPUP MODAL =====
+        // Endpoint selection: prefer stored, then ?endpoint, then last-good, then auto
+        const __endpointOverride = new URLSearchParams(window.location.search).get('endpoint');
+        const __storedEndpoint = (() => { try { return localStorage.getItem('fd_emot_send_endpoint') || null; } catch { return null; } })();
+        const __lastGoodEndpoint = (() => { try { return localStorage.getItem('fd_emot_last_good_endpoint') || null; } catch { return null; } })();
+        const __isLocalHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
+        // Disable stale hardcoded fallback; require explicit endpoint via ?endpoint or saved value
+        const __hardcodedFallback = '';
+        const SEND_ENDPOINT = (
+          (__endpointOverride && __endpointOverride.length > 0) ? __endpointOverride :
+          (__storedEndpoint && __storedEndpoint.length > 0) ? __storedEndpoint :
+          (__lastGoodEndpoint || null) ||
+          (__isLocalHost ? 'http://127.0.0.1:8787/send_emote' : '')
+        );
+        const STATUS_ENDPOINT = SEND_ENDPOINT ? SEND_ENDPOINT.replace(/\/send_emote$/, '/state') : '';
+
+        // Populate endpoint input, save/reset handlers
+        window.addEventListener('DOMContentLoaded', () => {
+          const inp = document.getElementById('api-endpoint-input');
+          const saveBtn = document.getElementById('save-api-endpoint');
+          const resetBtn = document.getElementById('reset-api-endpoint');
+          const apiStatusEl = document.getElementById('api-status');
+          if (inp) {
+            inp.value = __storedEndpoint || __endpointOverride || '';
+          }
+          if (apiStatusEl) {
+            if (SEND_ENDPOINT) {
+              const shortEndpoint = SEND_ENDPOINT.replace(/^https?:\/\//,'');
+              apiStatusEl.textContent = `Bot API: Checking… (${shortEndpoint})`;
+            } else {
+              apiStatusEl.textContent = 'Bot API: Set API endpoint';
+            }
+          }
+          if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+              const val = (inp?.value || '').trim();
+              try {
+                if (val) {
+                  localStorage.setItem('fd_emot_send_endpoint', val);
+                } else {
+                  localStorage.removeItem('fd_emot_send_endpoint');
+                }
+              } catch {}
+              location.href = location.origin + location.pathname; // reload without ?endpoint
+            });
+          }
+          if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+              try { localStorage.removeItem('fd_emot_send_endpoint'); } catch {}
+              location.href = location.origin + location.pathname; // reload without ?endpoint
+            });
+          }
+        });
+
+        async function pingApi() {
+            const statusEl = document.getElementById('api-status');
+            const lagBtn = document.getElementById('lag-team-btn');
+            try {
+                if (!STATUS_ENDPOINT) {
+                    statusEl.textContent = 'Bot API: Set API endpoint';
+                    statusEl.style.color = '#a00';
+                    if (lagBtn) lagBtn.disabled = true;
+                    return;
+                }
+                const res = await fetch(STATUS_ENDPOINT, { method: 'GET' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json().catch(() => ({ status: 'error' }));
+                const online = !!(data && data.status === 'ok' && data.state && data.state.connected_online === true);
+                if (online) {
+                    statusEl.textContent = 'Bot API: Online';
+                    statusEl.style.color = '#0a0';
+                    if (lagBtn) lagBtn.disabled = false;
+                    // Save last-good endpoint for future auto selection
+                    try { localStorage.setItem('fd_emot_last_good_endpoint', SEND_ENDPOINT); } catch {}
+                } else {
+                    statusEl.textContent = 'Bot API: Offline';
+                    statusEl.style.color = '#a00';
+                    if (lagBtn) lagBtn.disabled = true;
+                }
+            } catch (e) {
+                statusEl.textContent = 'Bot API: Offline (network)';
+                statusEl.style.color = '#a00';
+                if (lagBtn) lagBtn.disabled = true;
+                // Attempt automatic fallback to quick tunnel once, then reload to adopt it
+                try {
+                    const triedAutoSwitch = sessionStorage.getItem('fd_emot_auto_switched') === 'true';
+                    const fallbackStateUrl = (__hardcodedFallback && __hardcodedFallback.length > 0)
+                      ? __hardcodedFallback.replace(/\/send_emote$/, '/state')
+                      : '';
+                    if (!triedAutoSwitch && !__isLocalHost && fallbackStateUrl) {
+                        const fres = await fetch(fallbackStateUrl, { method: 'GET' });
+                        if (fres.ok) {
+                            const fdata = await fres.json().catch(() => ({ status: 'error' }));
+                            const fok = !!(fdata && fdata.status === 'ok' && fdata.state && fdata.state.connected_online === true);
+                            if (fok) {
+                                try { localStorage.setItem('fd_emot_send_endpoint', __hardcodedFallback); } catch {}
+                                try { localStorage.setItem('fd_emot_last_good_endpoint', __hardcodedFallback); } catch {}
+                                try { sessionStorage.setItem('fd_emot_auto_switched', 'true'); } catch {}
+                                statusEl.textContent = 'Bot API: Switching to fallback…';
+                                setTimeout(() => { location.href = location.origin + location.pathname; }, 400);
+                                return;
+                            }
+                        }
+                    }
+                } catch {}
+            }
+        }
+
+        // Lag Team feature: send rapid join requests using the provided team code
+        (function setupLagTeam() {
+            const lagBtn = document.getElementById('lag-team-btn');
+            const stopLagBtn = document.getElementById('stop-lag-team-btn');
+            const lagStatus = document.getElementById('lag-team-status');
+            if (!lagBtn) return; // In case element not present
+
+            let lagRunning = false;
+            let lagCancel = false;
+            let secInterval = null;
+            const PER_SECOND = 25; // 25 requests per second
+            const SECONDS = 10;     // run for 10 seconds
+            const TOTAL = PER_SECOND * SECONDS; // 250 requests
+
+            async function fireOnce(teamCode, burstDelayVal) {
+                try {
+                    const res = await fetch(SEND_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          server: (document.getElementById('server')?.value || 'india'),
+                          team_code: teamCode,
+                          emote_id: 0,
+                          uids: [],
+                          spam_delay_ms: burstDelayVal
+                        })
+                    });
+                    const text = await res.text();
+                    if (!res.ok) return { ok: false, status: res.status, body: text };
+                    return { ok: true, status: res.status, body: text };
+                } catch (e) {
+                    return { ok: false, status: 0, body: String(e) };
+                }
+            }
+
+            lagBtn.addEventListener('click', async () => {
+                if (lagRunning) return;
+                const teamCode = (document.getElementById('team-code')?.value || '').trim();
+                if (!teamCode) {
+                    alert('Please enter a Team Code first.');
+                    return;
+                }
+                lagRunning = true;
+                lagCancel = false;
+                lagStatus.textContent = 'Running…';
+                if (stopLagBtn) { stopLagBtn.style.display = 'inline-block'; stopLagBtn.disabled = false; }
+
+                // Read Burst Delay control to pass through for join bursts
+                const burstDelayRaw = (document.getElementById('burst-delay-ms')?.value || '').trim();
+                const burstDelayVal = burstDelayRaw ? Math.max(0, parseInt(burstDelayRaw, 10) || 0) : 120;
+
+                let sent = 0, done = 0, ok = 0, fail = 0;
+                let secondsElapsed = 0;
+                secInterval = setInterval(() => {
+                    if (lagCancel) {
+                        clearInterval(secInterval);
+                        lagRunning = false;
+                        lagStatus.textContent = 'Stopped.';
+                        if (stopLagBtn) { stopLagBtn.style.display = 'none'; stopLagBtn.disabled = false; }
+                        return;
+                    }
+                    if (secondsElapsed >= SECONDS) {
+                        clearInterval(secInterval);
+                        return;
+                    }
+                    secondsElapsed++;
+                    // Burst dispatch PER_SECOND requests immediately each second
+                    for (let i = 0; i < PER_SECOND && sent < TOTAL; i++) {
+                        if (lagCancel) break;
+                        sent++;
+                        fireOnce(teamCode, burstDelayVal).then(result => {
+                            if (lagCancel) return; // ignore updates after cancel
+                            if (result.ok) {
+                                ok++;
+                            } else {
+                                fail++;
+                                // Show last error snippet to help diagnose
+                                lagStatus.textContent = `Error: status ${result.status} – ${String(result.body).slice(0,100)}`;
+                            }
+                        }).finally(() => {
+                            if (lagCancel) return; // ignore updates after cancel
+                            done++;
+                            if (done % PER_SECOND === 0) {
+                                lagStatus.textContent = `Progress: ${done}/${TOTAL} (${secondsElapsed}s)`;
+                            }
+                            if (done >= TOTAL) {
+                                clearInterval(secInterval);
+                                lagRunning = false;
+                                lagStatus.textContent = `Completed: ${ok} success, ${fail} failed`;
+                                if (stopLagBtn) { stopLagBtn.style.display = 'none'; stopLagBtn.disabled = false; }
+                            }
+                        });
+                    }
+                }, 1000);
+            });
+
+            if (stopLagBtn) {
+                stopLagBtn.addEventListener('click', () => {
+                    if (!lagRunning) return;
+                    lagCancel = true;
+                    stopLagBtn.disabled = true;
+                    lagStatus.textContent = 'Stopping…';
+                });
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalOverlay = document.getElementById('welcome-modal-overlay');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+
+            closeModalBtn.addEventListener('click', function() {
+                modalOverlay.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Periodically check Bot API status and toggle Lag Team availability
+            pingApi();
+            setInterval(pingApi, 2000);
+        });
+
+        // ===== SCRIPT FOR MINIMIZE/MAXIMIZE DASHBOARD (DEFAULT MINIMIZE) =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleHeader = document.getElementById('toggle-dashboard');
+            const dashboard = document.getElementById('monitoring-dashboard');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            let isMinimized = localStorage.getItem('dashboardMinimized') !== 'false';
+
+            function updateDashboardState() {
+                if (isMinimized) {
+                    dashboard.classList.add('minimized');
+                    toggleIcon.classList.remove('fa-minus');
+                    toggleIcon.classList.add('fa-plus');
+                } else {
+                    dashboard.classList.remove('minimized');
+                    toggleIcon.classList.remove('fa-plus');
+                    toggleIcon.classList.add('fa-minus');
+                }
+                localStorage.setItem('dashboardMinimized', isMinimized);
+            }
+
+            updateDashboardState();
+
+            toggleHeader.addEventListener('click', function() {
+                isMinimized = !isMinimized;
+                updateDashboardState();
+            });
+        });
+
+        // ===== SCRIPT FOR SENDING EMOTES =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const emoteListContainer = document.querySelector('.emote-list');
+            const resultBox = document.getElementById('result-box');
+            const stopRetryBtn = document.getElementById('stop-retry-btn');
+            let cancelRetries = false;
+
+            if (stopRetryBtn) {
+                stopRetryBtn.addEventListener('click', () => {
+                    cancelRetries = true;
+                    stopRetryBtn.disabled = true;
+                    resultBox.textContent = 'Retry cancelled.';
+                });
+            }
+
+            if (!emoteListContainer) return;
+
+            // ===== Custom Emotes (add/persist/render) =====
+            const addBtn = document.getElementById('add-custom-emote');
+            const nameInput = document.getElementById('custom-emote-name');
+            const idInput = document.getElementById('custom-emote-id');
+            const formError = document.getElementById('custom-emote-error');
+
+            function addEmoteItemToDOM(item) {
+                const { name, id } = item;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'emote-item';
+
+                const img = document.createElement('img');
+                img.className = 'lazy-emote-image';
+                img.alt = name || 'Custom Emote';
+                img.setAttribute('data-src', `/static/images/${id}.png`);
+
+                const details = document.createElement('div');
+                details.className = 'emote-details';
+
+                const nameEl = document.createElement('p');
+                nameEl.className = 'emote-name';
+                nameEl.textContent = name || 'Custom Emote';
+
+                const idEl = document.createElement('p');
+                idEl.className = 'emote-id';
+                idEl.textContent = `ID: ${id}`;
+
+                const button = document.createElement('button');
+                button.className = 'send-button';
+                button.textContent = 'Send';
+                button.setAttribute('data-emote-id', id);
+
+                details.appendChild(nameEl);
+                details.appendChild(idEl);
+                wrapper.appendChild(img);
+                wrapper.appendChild(details);
+                wrapper.appendChild(button);
+
+                emoteListContainer.appendChild(wrapper);
+            }
+
+            function loadCustomEmotes() {
+                try {
+                    const raw = localStorage.getItem('customEmotes');
+                    const items = raw ? JSON.parse(raw) : [];
+                    items.forEach(addEmoteItemToDOM);
+                } catch (e) {
+                    console.error('Failed to load custom emotes:', e);
+                }
+            }
+
+            function persistCustomEmote(item) {
+                try {
+                    const raw = localStorage.getItem('customEmotes');
+                    const items = raw ? JSON.parse(raw) : [];
+                    items.push(item);
+                    localStorage.setItem('customEmotes', JSON.stringify(items));
+                } catch (e) {
+                    console.error('Failed to persist custom emote:', e);
+                }
+            }
+
+            if (addBtn) {
+                addBtn.addEventListener('click', () => {
+                    const nameVal = (nameInput?.value || '').trim();
+                    const idVal = (idInput?.value || '').trim();
+                    const numeric = /^\d+$/.test(idVal);
+
+                    if (!nameVal || !idVal || !numeric) {
+                        if (formError) formError.style.display = 'inline';
+                        return;
+                    }
+                    if (formError) formError.style.display = 'none';
+
+                    const item = { name: nameVal, id: idVal };
+                    addEmoteItemToDOM(item);
+                    persistCustomEmote(item);
+
+                    if (nameInput) nameInput.value = '';
+                    if (idInput) idInput.value = '';
+                });
+            }
+
+            // Render saved custom emotes on load
+            loadCustomEmotes();
+
+            // Team message feature removed
+
+            emoteListContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('send-button')) {
+                    const sendButton = event.target;
+                    
+                    const server = document.getElementById('server').value;
+                    const teamCode = document.getElementById('team-code').value.trim();
+                    const emoteId = sendButton.getAttribute('data-emote-id');
+                    
+                    const uidInputs = document.querySelectorAll('.uid-input');
+                    const uids = [];
+                    uidInputs.forEach(input => {
+                        const uidValue = input.value.trim();
+                        if (uidValue) {
+                            uids.push(uidValue);
+                        }
+                    });
+
+                    if (!server) {
+                        resultBox.textContent = 'Error: Please select a server.';
+                        return;
+                    }
+                    if (!teamCode) {
+                        resultBox.textContent = 'Error: Please enter a team code.';
+                        return;
+                    }
+                    if (uids.length === 0) {
+                        resultBox.textContent = 'No UIDs provided. This will attempt a team join only.';
+                    }
+                    
+                    resultBox.textContent = 'Sending request...';
+                    sendButton.disabled = true;
+                    sendButton.textContent = 'Sending...';
+                    // Read spam controls
+                    const repeatValRaw = (document.getElementById('repeat-count')?.value || '').trim();
+                    const burstDelayRaw = (document.getElementById('burst-delay-ms')?.value || '').trim();
+
+                    const repeatVal = repeatValRaw ? Math.max(1, parseInt(repeatValRaw, 10) || 1) : 1;
+                    const burstDelayVal = burstDelayRaw ? Math.max(0, parseInt(burstDelayRaw, 10) || 0) : 120;
+                    
+                    const payload = {
+                        server: server,
+                        team_code: teamCode,
+                        emote_id: emoteId,
+                        uids: uids,
+                        repeat: repeatVal,
+                        spam_delay_ms: burstDelayVal
+                    };
+                    // Send with retry when remote reports bot not connected (HTTP 5xx)
+                    const MAX_ATTEMPTS = 6;
+                    cancelRetries = false;
+                    if (stopRetryBtn) {
+                        stopRetryBtn.style.display = 'inline-block';
+                        stopRetryBtn.disabled = false;
+                    }
+
+                    const doFetch = (attempt = 1) => {
+                        fetch(SEND_ENDPOINT, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    let parsed = null;
+                                    try { parsed = JSON.parse(text); } catch {}
+                                    if (parsed && typeof parsed === 'object') {
+                                        parsed.http_status = response.status;
+                                        return parsed;
+                                    }
+                                    return {
+                                        status: 'error',
+                                        http_status: response.status,
+                                        message: `HTTP ${response.status} ${response.statusText}`,
+                                        body: text || 'No response body'
+                                    };
+                                });
+                            }
+                            return response.text().then(text => {
+                                try {
+                                    const obj = JSON.parse(text);
+                                    obj.http_status = response.status;
+                                    return obj;
+                                } catch (e) {
+                                    return { status: 'error', http_status: response.status, message: 'Invalid JSON response', body: text };
+                                }
+                            });
+                        })
+                        .then(data => {
+                            // If the remote reports bot not connected or any 5xx, retry with backoff
+                            const msg = String(data?.message || '').toLowerCase();
+                            const status = Number(data?.http_status || 0);
+                            const shouldRetry = (status >= 500) || (msg.includes('bot') && msg.includes('not connected'));
+                            if (cancelRetries) {
+                                resultBox.textContent = 'Retry cancelled.';
+                                if (stopRetryBtn) stopRetryBtn.style.display = 'none';
+                                sendButton.disabled = false;
+                                sendButton.textContent = 'Send';
+                                return;
+                            }
+                            if (shouldRetry && attempt < MAX_ATTEMPTS) {
+                                const waitMs = Math.min(1000 * attempt, 5000);
+                                resultBox.textContent = `Bot not connected yet. Retrying ${attempt}/${MAX_ATTEMPTS} in ${waitMs} ms...`;
+                                setTimeout(() => doFetch(attempt + 1), waitMs);
+                                return;
+                            }
+                            resultBox.textContent = JSON.stringify(data, null, 2);
+                            if (stopRetryBtn) stopRetryBtn.style.display = 'none';
+                            sendButton.disabled = false;
+                            sendButton.textContent = 'Send';
+                        })
+                        .catch(error => {
+                            console.error('Fetch Error:', error);
+                            resultBox.textContent = 'Unable to reach the server (network). Please try again later.';
+                            if (stopRetryBtn) stopRetryBtn.style.display = 'none';
+                            sendButton.disabled = false;
+                            sendButton.textContent = 'Send';
+                        });
+                    };
+                    doFetch(1);
+
+                    sendButton.disabled = false;
+                    sendButton.textContent = 'Send';
+                }
+            });
+        });
+
+        // ===== SCRIPT FOR MONITORING DASHBOARD (Fetch logic) =====
+        function fetchMonitoringData() {
+            const lastUpdatedEl = document.getElementById('last-updated');
+            
+            // Use a static fallback object in case of any errors
+            const fallbackData = { 
+                requests_per_minute: 42, 
+                timestamp: new Date().toISOString(), 
+                unique_team_codes: ["1234567", "7654321"], 
+                unique_users_minute: 5 
+            };
+            
+            // Try to fetch from monitoring.json first
+            fetch('monitoring.json')
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Falling back to monitoring.html');
+                        return fetch('monitoring.html');
+                    }
+                    return response;
+                })
+                .catch(error => {
+                    console.log('Error fetching monitoring data, using fallback');
+                    return new Response(JSON.stringify(fallbackData));
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Using fallback data');
+                        return new Response(JSON.stringify(fallbackData));
+                    }
+                    return response;
+                })
+                .then(response => response.text())
+                .then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        return fallbackData;
+                    }
+                })
+                .then(data => {
+                    document.getElementById('rpm-value').textContent = data.requests_per_minute;
+                    document.getElementById('users-minute-value').textContent = data.unique_users_minute;
+                    const userCountDisplay = document.getElementById('user-count-display');
+                    if (userCountDisplay) {
+                        userCountDisplay.textContent = `${data.unique_users_minute}/20`;
+                        if (data.unique_users_minute > 20) {
+                            userCountDisplay.classList.add('blink-red');
+                        } else {
+                            userCountDisplay.classList.remove('blink-red');
+                        }
+                    }
+                    
+                    // Update last updated label consistently
+                    lastUpdatedEl.textContent = 'Last updated: ' + data.timestamp;
+                    lastUpdatedEl.classList.remove('error');
+                })
+                .catch(error => {
+                    console.error('Error fetching monitoring data:', error);
+                    lastUpdatedEl.textContent = 'Error loading data.';
+                    lastUpdatedEl.classList.add('error'); 
+                });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchMonitoringData();
+            setInterval(fetchMonitoringData, 5000); 
+        });
+
+        // ===== SCRIPT FOR LAZY LOADING EMOTE IMAGES WITH DELAY =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyEmoteImages = document.querySelectorAll('.lazy-emote-image');
+            let delay = 0;
+            const delayIncrement = 500; 
+
+            lazyEmoteImages.forEach(img => {
+                setTimeout(() => {
+                    img.src = img.dataset.src;
+                }, delay);
+                delay += delayIncrement;
+            });
+        });
+    </script>
+  <div class="star-cta" aria-live="polite">
+    <a class="github-button" href="https://github.com/fdtestbotv3-ops/fd-EMOT-BOT" data-size="large" data-show-count="true" aria-label="Star fdtestbotv3-ops/fd-EMOT-BOT on GitHub">Star on GitHub</a>
+  </div>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script>
+    (function() {
+      var placeholder = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="100%" height="100%" fill="%23f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="12" fill="%23999">image</text></svg>';
+      function addFallback(img){
+        if(!img) return;
+        img.onerror = function(){
+          this.onerror = null;
+          this.src = placeholder;
+          this.classList.add('image-fallback');
+        };
+      }
+      document.querySelectorAll('.lazy-emote-image').forEach(addFallback);
+        })();
+
+        // ===== SIMPLE JOIN TEAM BUTTON HANDLER =====
+        (function setupJoinTeamOnce() {
+            const joinBtn = document.getElementById('join-team-btn');
+            if (!joinBtn) return;
+            joinBtn.addEventListener('click', async () => {
+                const teamCode = (document.getElementById('team-code')?.value || '').trim();
+                const resultBox = document.getElementById('result-box');
+                if (!teamCode) {
+                    alert('Please enter a Team Code first.');
+                    return;
+                }
+                joinBtn.disabled = true;
+                joinBtn.textContent = 'Joining…';
+                const burstDelayRaw = (document.getElementById('burst-delay-ms')?.value || '').trim();
+                const burstDelayVal = burstDelayRaw ? Math.max(0, parseInt(burstDelayRaw, 10) || 0) : 120;
+                try {
+                    const res = await fetch(SEND_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          server: (document.getElementById('server')?.value || 'india'),
+                          team_code: teamCode,
+                          emote_id: 0,
+                          uids: [],
+                          spam_delay_ms: burstDelayVal
+                        })
+                    });
+                    const text = await res.text();
+                    let data = null;
+                    try { data = JSON.parse(text); } catch { data = { status: 'error', body: text }; }
+                    if (!res.ok) {
+                        resultBox.textContent = `Join failed: HTTP ${res.status} – ${text.slice(0,200)}`;
+                    } else {
+                        resultBox.textContent = `Join response: ${JSON.stringify(data)}`;
+                    }
+                } catch (e) {
+                    resultBox.textContent = `Network error joining team: ${String(e)}`;
+                } finally {
+                    joinBtn.disabled = false;
+                    joinBtn.textContent = 'Join Team (once)';
+                }
+            });
+        })();
+  </script>
+</body>
+</html>
